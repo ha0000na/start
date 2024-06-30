@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Button</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .heart-button {
+            background-color: skyblue;
+            border:none;
+            cursor: pointer;
+            border-radius: 100%;
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .heart-button::before {
+            content: '♥';
+            font-size: 50px;
+            color: hotpink;
+        }
+
+        .heart {
+            position:absolute;  
+            width: 10px;
+            height: 10px;
+            background-color: pink;
+            transform: rotate(45deg);
+            border-radius: 50% 50% 0 0;
+            animation: pop 1.2s ease-out forwards;
+            opacity: 0;
+        }
+
+        .heart::before, .heart::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -5px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -5px;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.2) translateY(0) translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(var(--moveY)) translateX(var(--moveX));
+                opacity: 1; /* Keep opacity to 1 to make them stay visible */
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="heart-button" onclick="popHearts()"></button>
+
+    <script>
+        function popHearts() {
+            const button = document.querySelector('.heart-button');
+            for (let i = 0; i < 10; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                const angle = Math.random() * 2 * Math.PI;
+                const distance = Math.random() * 150; // Increase the range
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                heart.style.setProperty('--moveX', `${x}px`);
+                heart.style.setProperty('--moveY', `${y}px`);
+                heart.style.animationDelay = `${i * 0.1}s`;
+                button.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
